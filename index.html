@@ -20,6 +20,7 @@
               if (records.length === 0) {
                 document.getElementById('output').textContent = 'Bo\'sh teg';
               } else {
+                var outputText = '';
                 records.forEach(function(record) {
                   if (record.recordType === 'text') {
                     var data = record.data;
@@ -27,10 +28,10 @@
                     var hexText = [...new Uint8Array(data)]
                       .map(byte => byte.toString(16).padStart(2, '0'))
                       .join(' ');
-                    var outputText = 'NFC ma\'lumotlari (16-talik format): ' + hexText + '\nKim uchun: ' + text;
-                    document.getElementById('output').textContent = outputText;
+                    outputText += 'Karta kimga tegishli: ' + text + '\n16-talik raqam: ' + hexText + '\n\n';
                   }
                 });
+                document.getElementById('output').textContent = outputText;
               }
             })
             .catch(function(error) {
