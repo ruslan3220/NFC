@@ -17,17 +17,21 @@
             .read()
             .then(function({ records }) {
               // O'qigan ma'lumotlarni ekranga chiqarish
-              records.forEach(function(record) {
-                if (record.recordType === 'text') {
-                  var data = record.data;
-                  var text = new TextDecoder().decode(data);
-                  var hexText = [...new Uint8Array(data)]
-                    .map(byte => byte.toString(16).padStart(2, '0'))
-                    .join(' ');
-                  var outputText = 'NFC ma\'lumotlari (16-talik format): ' + hexText + '\nKim uchun: ' + text;
-                  document.getElementById('output').textContent = outputText;
-                }
-              });
+              if (records.length === 0) {
+                document.getElementById('output').textContent = 'Bo\'sh teg';
+              } else {
+                records.forEach(function(record) {
+                  if (record.recordType === 'text') {
+                    var data = record.data;
+                    var text = new TextDecoder().decode(data);
+                    var hexText = [...new Uint8Array(data)]
+                      .map(byte => byte.toString(16).padStart(2, '0'))
+                      .join(' ');
+                    var outputText = 'NFC ma\'lumotlari (16-talik format): ' + hexText + '\nKim uchun: ' + text;
+                    document.getElementById('output').textContent = outputText;
+                  }
+                });
+              }
             })
             .catch(function(error) {
               console.error('NFC ma\'lumotlarini o\'qishda xatolik:', error);
